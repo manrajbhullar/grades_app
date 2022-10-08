@@ -1,0 +1,25 @@
+version: '3.3'
+
+services:
+  entry_db:
+    image: entry_db
+    restart: always
+    ports:
+      - "3306:3306"
+    hostname: entry_db
+    networks:
+      - grades_app
+
+  results_db:
+    image: results_db
+    restart: always
+    ports:
+      - "2717:27017"
+    hostname: results_db
+    networks:
+      - grades_app
+
+networks:
+  grades_app:
+    name: grades_app
+
