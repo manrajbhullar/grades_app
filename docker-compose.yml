@@ -30,6 +30,28 @@ services:
     networks:
       - grades_app
 
+  results:
+    image: results
+    restart: always
+    ports:
+      - "8090:8090"
+    hostname: results
+    networks:
+      - grades_app
+    depends_on:
+      - "results_db"
+
+  authentication:
+    image: authentication
+    restart: always
+    ports:
+      - "80:80"
+    networks:
+      - grades_app
+    depends_on:
+      - "entry"
+      - "results"
+
 networks:
   grades_app:
     name: grades_app
