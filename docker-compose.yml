@@ -9,6 +9,17 @@ services:
     hostname: entry_db
     networks:
       - grades_app
+  
+  entry:
+    image: entry
+    restart: always
+    ports:
+      - "8080:8080"
+    hostname: entry
+    networks:
+      - grades_app
+    depends_on:
+      - "entry_db"
 
   results_db:
     image: results_db

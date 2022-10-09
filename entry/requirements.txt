@@ -1,4 +1,6 @@
+flask
 sqlalchemy
 mysql-connector-python
 pymysql
 cryptography
+wtforms

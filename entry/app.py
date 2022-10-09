@@ -2,6 +2,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from base import Base
 from Grade import Grade
+from flask import Flask, render_template, request
+from GradeForm import GradeForm
 
 # DB Credentials
 DB_HOST = 'entry_db'
@@ -15,9 +17,25 @@ DB_ENGINE = create_engine(f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{D
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
-# Testing adding a grade
-session = DB_SESSION()
-grade = Grade('COMP 3495', 'Manraj', 'Bhullar', 95.2)
-session.add(grade)
-session.commit()
-session.close()
+app = Flask(__name__)
+
+@app.route('/', methods=['GET', 'POST'])
+def enter_grade():
+
+    form = GradeForm(request.form)
+    if request.method == 'POST':
+        if form.validate():
+            
+            grade = Grade(form.course.data, form.first_name.data, form.last_name.data, form.grade.data)
+            session = DB_SESSION()
+            session.add(grade)
+            session.commit()
+            session.close()
+            
+            return render_template('index.html')
+    
+    return render_template('index.html')
+
+
+if __name__ == "__main__":
+    app.run(port=8080, host='0.0.0.0')
