@@ -4,6 +4,7 @@ from base import Base
 from Grade import Grade
 from flask import Flask, render_template, request
 from GradeForm import GradeForm
+import requests
 
 # DB Credentials
 DB_HOST = 'entry_db'
@@ -31,7 +32,8 @@ def enter_grade():
             session.add(grade)
             session.commit()
             session.close()
-            
+
+            requests.get('http://analytics:8100/update_stats')
             return render_template('index.html')
     
     return render_template('index.html')
