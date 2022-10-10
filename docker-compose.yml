@@ -41,6 +41,18 @@ services:
     depends_on:
       - "results_db"
 
+  analytics:
+    image: analytics
+    restart: always
+    ports:
+      - "8100:8100"
+    hostname: analytics
+    networks:
+      - grades_app
+    depends_on:
+      - "entry_db"
+      - "results_db"
+
   authentication:
     image: authentication
     restart: always
