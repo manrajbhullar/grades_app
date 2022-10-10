@@ -18,6 +18,8 @@ DB_ENGINE = create_engine(f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{D
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
+ANALYTICS_IP = 'analytics'
+
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
@@ -33,7 +35,7 @@ def enter_grade():
             session.commit()
             session.close()
 
-            requests.get('http://analytics:8100/update_stats')
+            requests.get(f'http://{ANALYTICS_IP}:8100/update_stats')
             return render_template('index.html')
     
     return render_template('index.html')
