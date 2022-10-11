@@ -1,0 +1,9 @@
+<% for (let i = 1; i <= update_length; i++) {%>
+    <% console.log(body[body_length-i])%>
+    <h2>Class: <%=body[body_length-i].name%></h2>
+    <p>Highest Grade: <%=body[body_length-i].max%></p>
+    <p>Average Grade: <%=body[body_length-i].avg%></p>
+    <p>Lowest Grade: <%=body[body_length-i].min%></p>
+    <p>(Data last updated: <%=body[body_length-i].timestamp%>)</p>
+    
+<%};%>

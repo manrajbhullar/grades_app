@@ -7,6 +7,14 @@
     <title>Document</title>
 </head>
 <body>
+    <% for (let i = 0; i <= body_length; i++) {%>
+        <%i%>
+        <h2><%=body[i].name%></h2>
+        <p>Lowest Grade <%=body[i].min%></p>
+        <p>Average Grade: <%=body[i].avg%></p>
+        <p>Highest Grade: <%=body[i].max%></p>
+    <%};%>
+    
     <%- body %>
 </body>
 </html>

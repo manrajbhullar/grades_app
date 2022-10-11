@@ -14,36 +14,41 @@ const DB_HOST = 'results_db'
 const DB_PORT = 27017
 const DB_NAME = 'grades_app'
 const url = `mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`;  
-// const url = "mongodb://localhost:27017/mydb";
- 
 
-MongoClient.connect(url, function(err, db) {
-    if (err) throw err;
-    console.log("Connected");
-    db.close();
-  });
-
-// Example database query - https://www.w3schools.com/nodejs/nodejs_mongodb_query.asp
-// MongoClient.connect(url, function(err, db) {
-//     if (err) throw err;
-//     var dbo = db.db("mydb");
-//     /*Return only the documents with the address "Park Lane 38":*/
-//     var query = { address: "Park Lane 38" };
-//     dbo.collection("customers").find(query).toArray(function(err, result) {
-//         if (err) throw err;
-//         console.log(result);
-//         db.close();
-//     });
-// });
 
 app.get('/', function(req, res) {
-    var locals = {
-        title: 'Page Title',
-        description: 'Page Description',
-        header: 'Page Header'
-      };
 
-    res.render("list", locals);
+    MongoClient.connect(url, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db("grades_app");
+      var query = {}; // empty = everything
+      
+      // dbo.collection("course_stats").find(query).toArray(function(err, result) {
+      dbo.collection("results").find(query).limit(1).sort({$natural:-1}).toArray(function(err, result) {
+          if (err) throw err;
+          console.log(result);
+          db.close();
+          
+          dbo.collection("course_stats").find(query).toArray(function(err, courses) {
+            if (err) throw err;
+            console.log(courses);
+            db.close();
+            
+            var locals = {
+              body: info=courses,
+              update: result,
+              body_length: info.length,
+              update_length: result[0].courses.length
+            };
+            res.render("layout2", locals);
+
+          });
+
+          
+      });
+  });  
+
+
 });
 
 app.listen(PORT, function(){
