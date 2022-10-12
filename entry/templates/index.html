@@ -20,28 +20,49 @@
         <h1 class="m-4">Enter Grades</h1>
 
         <div class="container">
-            <form action="/", method="POST">
+            <form action="/entry", method="POST">
                 <div class="form-group">
                   <label for="course">Course:</label>
-                  <input type="text" class="form-control" id="course" placeholder="Enter course name" name="course">
+                  <input type="text" minlength="1" maxlength="25" class="form-control" id="course" placeholder="Enter course name" name="course">
                 </div>
                 <div class="form-group">
                   <label for="first_name">First Name:</label>
-                  <input type="text" class="form-control" id="first_name" placeholder="Enter first name" name="first_name">
+                  <input type="text" minlength="1" maxlength="25" class="form-control" id="first_name" placeholder="Enter first name" name="first_name">
                 </div>
                 <div class="form-group">
                     <label for="last_name">Last Name:</label>
-                    <input type="text" class="form-control" id="last_name" placeholder="Enter last name" name="last_name">
+                    <input type="text" minlength="1" maxlength="25" class="form-control" id="last_name" placeholder="Enter last name" name="last_name">
                 </div>
                 <div class="form-group">
                     <label for="grade">Grade:</label>
-                    <input type="number" step=".01" class="form-control" id="grade" placeholder="Enter grade" name="grade">
+                    <input type="number" step=".01"  min="0" max="100" class="form-control" id="grade" placeholder="Enter grade" name="grade">
                 </div>
                 <br>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
+                <br>
+                <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Course</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Grade</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for grade in existing_grades %}
+                      <tr>
+                        <th scope="row">{{grade['id']}}</th>
+                        <td>{{grade['course']}}</td>
+                        <td>{{grade['first_name']}}</td>
+                        <td>{{grade['last_name']}}</td>
+                        <td>{{grade['grade']}}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                 </table>
         </div>
-
     </body>
-
 </html>

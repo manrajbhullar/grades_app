@@ -4,6 +4,7 @@ from base import Base
 from Grade import Grade
 from flask import Flask, render_template, request
 from GradeForm import GradeForm
+import requests
 
 # DB Credentials
 DB_HOST = 'entry_db'
@@ -16,6 +17,8 @@ DB_NAME = 'grades_app'
 DB_ENGINE = create_engine(f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}")
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
+
+ANALYTICS_IP = 'analytics'
 
 app = Flask(__name__)
 
@@ -31,10 +34,25 @@ def enter_grade():
             session.add(grade)
             session.commit()
             session.close()
-            
-            return render_template('index.html')
+
+            session = DB_SESSION()
+            grades_query = session.query(Grade).all()
+            session.close()
+            grades = []
+            for grade in grades_query:
+                grades.append(grade.to_dict())
+
+            requests.get(f'http://{ANALYTICS_IP}:8100/update_stats')
+            return render_template('index.html', existing_grades=grades)
     
-    return render_template('index.html')
+    session = DB_SESSION()
+    grades_query = session.query(Grade).all()
+    session.close()
+    grades = []
+    for grade in grades_query:
+        grades.append(grade.to_dict())
+
+    return render_template('index.html', existing_grades=grades)
 
 
 if __name__ == "__main__":

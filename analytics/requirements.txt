@@ -1,2 +1,7 @@
+flask
+sqlalchemy
+mysql-connector-python
+pymysql
+cryptography
 mongoengine
 pymongo

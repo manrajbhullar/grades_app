@@ -4,8 +4,8 @@ services:
   entry_db:
     build: ./entry_db
     restart: always
-    ports:
-      - "3306:3306"
+    #ports:
+    #  - "3306:3306"
     hostname: entry_db
     networks:
       - grades_app
@@ -13,8 +13,8 @@ services:
   entry:
     build: ./entry
     restart: always
-    ports:
-      - "8080:8080"
+    #ports:
+    #  - "8080:8080"
     hostname: entry
     networks:
       - grades_app
@@ -24,8 +24,8 @@ services:
   results_db:
     build: ./results_db
     restart: always
-    ports:
-      - "2717:27017"
+    #ports:
+    #  - "2717:27017"
     hostname: results_db
     networks:
       - grades_app
@@ -33,12 +33,24 @@ services:
   results:
     build: ./results
     restart: always
-    ports:
-      - "8090:8090"
+    #ports:
+    #  - "8090:8090"
     hostname: results
     networks:
       - grades_app
     depends_on:
+      - "results_db"
+
+  analytics:
+    image: analytics
+    restart: always
+    #ports:
+    #  - "8100:8100"
+    hostname: analytics
+    networks:
+      - grades_app
+    depends_on:
+      - "entry_db"
       - "results_db"
 
   authentication:
