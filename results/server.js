@@ -36,7 +36,7 @@ app.get('/', function(req, res) {
             
             if (result.length == 0) {
               var locals = {
-                body: 'There are no Classes in the Database'
+                body: '   No grades in database. There are no results.'
               }
               res.render("layout", locals);
             } 
