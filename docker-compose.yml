@@ -42,7 +42,7 @@ services:
       - "results_db"
 
   analytics:
-    image: analytics
+    build: ./analytics
     restart: always
     #ports:
     #  - "8100:8100"
