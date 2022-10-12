@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   entry_db:
-    image: entry_db
+    build: ./entry_db
     restart: always
     ports:
       - "3306:3306"
@@ -11,7 +11,7 @@ services:
       - grades_app
   
   entry:
-    image: entry
+    build: ./entry
     restart: always
     ports:
       - "8080:8080"
@@ -22,7 +22,7 @@ services:
       - "entry_db"
 
   results_db:
-    image: results_db
+    build: ./results_db
     restart: always
     ports:
       - "2717:27017"
@@ -31,7 +31,7 @@ services:
       - grades_app
 
   results:
-    image: results
+    build: ./results
     restart: always
     ports:
       - "8090:8090"
@@ -42,7 +42,7 @@ services:
       - "results_db"
 
   authentication:
-    image: authentication
+    build: ./authentication
     restart: always
     ports:
       - "80:80"
