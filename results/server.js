@@ -34,13 +34,22 @@ app.get('/', function(req, res) {
             console.log(courses);
             db.close();
             
-            var locals = {
-              body: info=courses,
-              update: result,
-              body_length: info.length,
-              update_length: result[0].courses.length
-            };
-            res.render("layout2", locals);
+            if (result.length == 0) {
+              var locals = {
+                body: 'There are no Classes in the Database'
+              }
+              res.render("layout", locals);
+            } 
+            else {
+              var locals = {
+                body: info=courses,
+                update: result,
+                body_length: info.length,
+                update_length: result[0].courses.length
+              };
+              res.render("layout2", locals);
+            }
+            
 
           });
 
