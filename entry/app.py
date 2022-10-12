@@ -35,24 +35,10 @@ def enter_grade():
             session.commit()
             session.close()
 
-            session = DB_SESSION()
-            grades_query = session.query(Grade).all()
-            session.close()
-            grades = []
-            for grade in grades_query:
-                grades.append(grade.to_dict())
-
             requests.get(f'http://{ANALYTICS_IP}:8100/update_stats')
-            return render_template('index.html', existing_grades=grades)
+            return render_template('index.html')
     
-    session = DB_SESSION()
-    grades_query = session.query(Grade).all()
-    session.close()
-    grades = []
-    for grade in grades_query:
-        grades.append(grade.to_dict())
-
-    return render_template('index.html', existing_grades=grades)
+    return render_template('index.html')
 
 
 if __name__ == "__main__":
